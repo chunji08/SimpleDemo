@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_REGISTRY: harbor.test.myfaccloud-301.com
+      DOCKER_PROJECT: demogitops
+      APP_NAME: SimpleDemo
+      IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
+      GITOPS_REPO: git@github.com:user/SIMPLEDEMO-GITOPS.git
+      GITOPS_BRANCH: main
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Harbor Registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login https://${{ env.DOCKER_REGISTRY }} -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Build and Tag Docker Image
+        run: |
+          docker build -t ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_PROJECT }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }} .
+
+      - name: Push Docker Image to Harbor
+        run: |
+          docker push ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_PROJECT }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }}
+
+      - name: Checkout GitOps Repository
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.GITOPS_REPO }}
+          ref: ${{ env.GITOPS_BRANCH }}
+          path: gitops
+
+      - name: Update Image Tag in Kubernetes Manifests
+        run: |
+          cd gitops
+          sed -i 's|image: .*/SIMPLEDEMO:.*|image: ${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${APP_NAME}:${IMAGE_TAG}|' deployment.yaml
+          git config user.name "github-actions-bot"
+          git config user.email "github-actions@users.noreply.github.com"
+          git commit -am "Update image tag to ${{ env.IMAGE_TAG }}"
+          git push origin ${{ env.GITOPS_BRANCH }}
