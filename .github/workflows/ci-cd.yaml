@@ -12,7 +12,7 @@ jobs:
     env:
       DOCKER_REGISTRY: harbor.test.myfaccloud-301.com
       DOCKER_PROJECT: demogitops
-      APP_NAME: SimpleDemo
+      APP_NAME: simple-app
       IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
       GITOPS_REPO: git@github.com:user/SIMPLEDEMO-GITOPS.git
       GITOPS_BRANCH: main
@@ -45,7 +45,7 @@ jobs:
       - name: Update Image Tag in Kubernetes Manifests
         run: |
           cd gitops
-          sed -i 's|image: .*/SIMPLEDEMO:.*|image: ${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${APP_NAME}:${IMAGE_TAG}|' deployment.yaml
+          sed -i 's|image: .*/simple-app:.*|image: ${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${APP_NAME}:${IMAGE_TAG}|' deployment.yaml
           git config user.name "github-actions-bot"
           git config user.email "github-actions@users.noreply.github.com"
           git commit -am "Update image tag to ${{ env.IMAGE_TAG }}"
