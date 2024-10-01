@@ -1,1 +1,1 @@
-print("Hello World, Mr TNT!!!")
+print("Open the wall, Mr JFK!")
