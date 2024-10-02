@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_REGISTRY: index.docker.com   # harbor.test.myfaccloud-301.com
-      DOCKER_PROJECT: chunji08  # demogitops
+      DOCKER_REGISTRY:  harbor.test.myfaccloud-301.com
+      DOCKER_PROJECT: demogitops
       APP_NAME: simple-app
       IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
       GITOPS_REPO: git@github.com:user/SIMPLEDEMO-GITOPS.git
