@@ -7,10 +7,10 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # Change from 'ubuntu-latest' to 'self-hosted'
 
     env:
-      DOCKER_REGISTRY:  harbor.test.myfaccloud-301.com
+      DOCKER_REGISTRY: harbor.test.myfaccloud-301.com
       DOCKER_PROJECT: demogitops
       APP_NAME: simple-app
       IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
