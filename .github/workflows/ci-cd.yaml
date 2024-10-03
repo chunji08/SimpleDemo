@@ -14,8 +14,7 @@ jobs:
       DOCKER_PROJECT: demogitops
       APP_NAME: simple-app
       IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
-      OWNER: chunji08
-      # GITOPS_REPO: https://github.com/${{ env.OWNER }}/SIMPLEDEMO-GITOPS.git  # Use HTTPS format
+      GITOPS_REPO: https://github.com/user/SIMPLEDEMO-GITOPS.git  # Use HTTPS format
       GITOPS_BRANCH: main
 
     steps:
@@ -39,7 +38,7 @@ jobs:
       - name: Checkout GitOps Repository
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/${{ env.OWNER }}/SIMPLEDEMO-GITOPS.git
+          repository: ${{ env.GITOPS_REPO }}
           ref: ${{ env.GITOPS_BRANCH }}
           path: gitops
           token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
