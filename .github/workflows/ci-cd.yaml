@@ -50,7 +50,7 @@ jobs:
         run: |
           cd gitops
           sed -i 's|image: .*/simple-app:.*|image: ${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${APP_NAME}:${IMAGE_TAG}|' deployment.yaml
-          git config user.name "github-actions-bot"
+          git config user.name "${{ secrets.GIT_USERNAME }}"
           git config user.email "github-actions@users.noreply.github.com"
           git commit -am "Update image tag to ${{ env.IMAGE_TAG }}"
-          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/chunji08/SIMPLEDEMO-GITOPS.git ${{ env.GITOPS_BRANCH }} 
+          git push https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/chunji08/SIMPLEDEMO-GITOPS.git ${{ env.GITOPS_BRANCH }}
