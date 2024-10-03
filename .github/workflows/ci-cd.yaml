@@ -14,7 +14,7 @@ jobs:
       DOCKER_PROJECT: demogitops
       APP_NAME: simple-app
       IMAGE_TAG: latest  # Optional: use ${{ github.sha }} for unique tags
-      GITOPS_REPO: git@github.com:user/SIMPLEDEMO-GITOPS.git
+      GITOPS_REPO: https://github.com/user/SIMPLEDEMO-GITOPS.git  # Use HTTPS format
       GITOPS_BRANCH: main
 
     steps:
@@ -41,6 +41,7 @@ jobs:
           repository: ${{ env.GITOPS_REPO }}
           ref: ${{ env.GITOPS_BRANCH }}
           path: gitops
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for authentication
 
       - name: Update Image Tag in Kubernetes Manifests
         run: |
