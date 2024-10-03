@@ -50,4 +50,4 @@ jobs:
           git config user.name "github-actions-bot"
           git config user.email "github-actions@users.noreply.github.com"
           git commit -am "Update image tag to ${{ env.IMAGE_TAG }}"
-          git push origin ${{ env.GITOPS_BRANCH }}
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/chunji08/SIMPLEDEMO-GITOPS.git ${{ env.GITOPS_BRANCH }} 
