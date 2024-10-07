@@ -50,17 +50,6 @@ jobs:
         run: |
           cd gitops
 
-          if [ -z "${{ secrets.GIT_USERNAME }}" ]; then
-            echo "GIT_USERNAME is not set"
-          else
-            echo "GIT_USERNAME is set"
-          fi
-          if [ -z "${{ secrets.GIT_PASSWORD }}" ]; then
-            echo "GIT_PASSWORD is not set"
-          else
-            echo "GIT_PASSWORD is set"
-          fi
-
           sed -i 's|image: .*/simple-app:.*|image: ${DOCKER_REGISTRY}/${DOCKER_PROJECT}/${APP_NAME}:${IMAGE_TAG}|' deployment.yaml
           git config user.name "${{ secrets.GIT_USERNAME }}"
           git config user.email "github-actions@users.noreply.github.com"
