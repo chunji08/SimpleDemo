@@ -22,6 +22,6 @@ COPY --from=build /usr/local/lib/python3.10/site-packages /usr/local/lib/python3
 #COPY --from=build /usr/local/bin /usr/local/bin
 
 # Copy only the necessary application files
-COPY --from=build /app /app
+COPY --from=build /app/app.y /app/app.y
 
 CMD ["python", "app.py"]
