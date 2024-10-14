@@ -18,7 +18,7 @@ FROM python:3.10-slim AS final
 WORKDIR /app
 
 # Copy installed dependencies from the build stage
-#COPY --from=build /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=build /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
 #COPY --from=build /usr/local/bin /usr/local/bin
 
 # Copy only the necessary application files
